@@ -1,0 +1,36 @@
+package com.acme.meetingrooms.controller.form;
+
+
+/**
+ * EmployeeForm class representing an employee form.
+ * @author Istvan_Hever
+ *
+ */
+
+public class EmployeeForm {
+
+    private String name;
+    private String email;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "EmployeeForm [name=" + name + ", email=" + email + "]";
+    }
+
+}

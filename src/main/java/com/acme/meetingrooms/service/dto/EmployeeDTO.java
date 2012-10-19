@@ -1,21 +1,14 @@
-package com.acme.meetingrooms.domain.employee;
+package com.acme.meetingrooms.service.dto;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
 /**
  * Employee class representing an employee.
  * @author Istvan_Hever
  *
  */
-@Entity
-@Table(name = "employee")
-public class Employee {
 
-    @GeneratedValue
-    @Id
+public class EmployeeDTO {
+
     private long id;
     private String name;
     private String email;
@@ -42,6 +35,11 @@ public class Employee {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "Employee [id=" + id + ", name=" + name + ", email=" + email + "]";
     }
 
 }

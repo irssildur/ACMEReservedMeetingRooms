@@ -2,10 +2,11 @@
 <beans:beans xmlns="http://www.springframework.org/schema/mvc"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+	xmlns:p="http://www.springframework.org/schema/p">
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
@@ -25,4 +26,55 @@
 	
 	
 	
+	
+	<!-- misc -->
+	
+	<beans:bean id="entityManagerFactory" class="javax.persistence.Persistence" autowire-candidate="true" factory-method="createEntityManagerFactory">
+	    <beans:constructor-arg name="persistenceUnitName" value="persistenceUnit" />
+	</beans:bean>
+	
+	<!-- service.builder -->
+	
+	<beans:bean id="employeeDTOBuilder" class="com.acme.meetingrooms.service.builder.EmployeeDTOBuilder" />
+	<beans:bean id="employeeDAOBuilder" class="com.acme.meetingrooms.service.builder.EmployeeEntityBuilder" />
+	<beans:bean id="employeeFormBuilder" class="com.acme.meetingrooms.service.builder.EmployeeFormBuilder" />
+	
+	<!-- service.converter -->
+	
+	<beans:bean id="employeeDAOToDTOConverter" class="com.acme.meetingrooms.service.converter.EmployeeDAOToDTOConverter">
+	    <beans:property name="builder" ref="employeeDTOBuilder"/>
+	</beans:bean>
+	
+	<beans:bean id="employeeDTOToDAOConverter" class="com.acme.meetingrooms.service.converter.EmployeeDTOToDAOConverter">
+	    <beans:property name="builder" ref="employeeDAOBuilder"/>
+	</beans:bean>
+	
+	<beans:bean id="employeeFormToDTOConverter" class="com.acme.meetingrooms.service.converter.EmployeeFormToDTOConverter">
+	    <beans:property name="builder" ref="employeeDTOBuilder"/>
+	</beans:bean>
+	
+	<!-- service -->
+
+	<beans:bean id="defaultEmployeeServiceDAO" class="com.acme.meetingrooms.service.DefaultEmployeeServiceDAO">
+	    <beans:property name="entityManagerFactory" ref="entityManagerFactory"></beans:property>
+	</beans:bean>
+	
+	<beans:bean id="employeeService" class="com.acme.meetingrooms.service.DefaultEmployeeService">
+	    <beans:property name="dao" ref="defaultEmployeeServiceDAO" />
+	    <beans:property name="employeeDAOToDTOConverter" ref="employeeDAOToDTOConverter" />
+	    <beans:property name="employeeDTOToDAOConverter" ref="employeeDTOToDAOConverter" />
+	</beans:bean>
+	
+	<!-- controller -->
+	
+	<beans:bean id="employeeController" class="com.acme.meetingrooms.controller.EmployeeController">
+	    <beans:property name="employeeService" ref="employeeService" />
+	    <beans:property name="employeeFormToDTOConverter" ref="employeeFormToDTOConverter" />
+	</beans:bean>
+	
+	
+	
+	
+
+		
 </beans:beans>
