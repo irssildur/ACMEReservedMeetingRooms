@@ -3,7 +3,6 @@ package com.acme.meetingrooms.service;
 import java.util.List;
 
 import com.acme.meetingrooms.service.dto.EmployeeDTO;
-import com.acme.meetingrooms.service.exceptions.EmployeeNotFoundException;
 
 /**
  * Interface for the Employee Service.

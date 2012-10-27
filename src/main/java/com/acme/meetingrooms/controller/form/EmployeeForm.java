@@ -9,8 +9,8 @@ package com.acme.meetingrooms.controller.form;
 
 public class EmployeeForm {
 
-    private String name;
-    private String email;
+    private String name = "";
+    private String email = "";
 
     public String getName() {
         return name;

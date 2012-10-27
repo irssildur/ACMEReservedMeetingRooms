@@ -10,8 +10,8 @@ package com.acme.meetingrooms.service.dto;
 public class EmployeeDTO {
 
     private long id;
-    private String name;
-    private String email;
+    private String name = "";
+    private String email = "";
 
     public long getId() {
         return id;

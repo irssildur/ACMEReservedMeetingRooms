@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import com.acme.meetingrooms.dao.entity.EmployeeEntity;
 import com.acme.meetingrooms.service.converter.EmployeeConverter;
 import com.acme.meetingrooms.service.dto.EmployeeDTO;
-import com.acme.meetingrooms.service.exceptions.EmployeeNotFoundException;
 
 /**
  * Default implementation for {@link EmployeeService}.

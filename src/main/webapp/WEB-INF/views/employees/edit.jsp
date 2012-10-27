@@ -3,15 +3,17 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 ${errors}
 
 <form:form method="POST" commandName="employee">
-	<label for="name">Név: ($employee.name)</label>
+	<label for="name"><spring:message code="name" />: (${employee.name})</label>
 	<form:input id="name" path="name"/>
 	<br/>
-	<label for="email">E-Mail: ($employee.email)</label>
+	<label for="email"><spring:message code="email" />: (${employee.email})</label>
 	<form:input id="email" path="email"/>
 	<br/>
-	<input type="submit" value="submit" name="submit"/>
+	<form:hidden path="id" id="id" />
+	<input type="submit" name="submit" value="<spring:message code="submit.btn" />: "/>
 </form:form>

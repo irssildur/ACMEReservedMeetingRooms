@@ -1,4 +1,4 @@
-package com.acme.meetingrooms.service.exceptions;
+package com.acme.meetingrooms.service;
 
 /**
  * Exception that should be thrown when there are problems with the database.

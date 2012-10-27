@@ -11,8 +11,13 @@
 	</appender>
 
 	<!-- Application Loggers -->
+
 	<logger name="com.acme.meetingrooms">
 		<level value="info" />
+	</logger>
+
+	<logger name="com.acme.meetingrooms.controller">
+		<level value="debug" />
 	</logger>
 
 	<!-- 3rdparty Loggers -->

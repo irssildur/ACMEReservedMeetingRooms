@@ -1,3 +1,5 @@
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+
 <c:url var="listUrl" value="/employees/list"/>  
 <c:url var="addUrl" value="/employees/add"/>  
 
@@ -9,14 +11,14 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</a> 
-			<a class="brand" href="#">ACME Meetingrooms</a>
+			<a class="brand" href="#"><spring:message code="menu.title" /></a>
 			<div class="nav-collapse collapse">
 				<ul class="nav">
 					<li class="active">
-						<a href="${listUrl}">List Employees</a>
+						<a href="${listUrl}"><spring:message code="menu.list.employees" /></a>
 					</li>
 					<li>
-						<a href="${addUrl}">Add Employee</a>
+						<a href="${addUrl}"><spring:message code="menu.add.employee" /></a>
 					</li>
 					
 				</ul>

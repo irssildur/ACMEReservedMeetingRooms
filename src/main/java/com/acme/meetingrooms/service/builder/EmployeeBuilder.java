@@ -8,6 +8,10 @@ package com.acme.meetingrooms.service.builder;
  */
 public interface EmployeeBuilder<T> {
 
+    /**
+     * For getting a builder.
+     * @return the builder
+     */
     EmployeeBuilder<T> getBuilder();
 
     /**

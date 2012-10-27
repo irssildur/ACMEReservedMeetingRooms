@@ -6,14 +6,14 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Repository;
 
 import com.acme.meetingrooms.dao.entity.EmployeeEntity;
-import com.acme.meetingrooms.service.exceptions.DatabaseErrorException;
-import com.acme.meetingrooms.service.exceptions.EmployeeNotFoundException;
 
 /**
  * A JPA based implementation of the {@link EmployeeServiceDAO} interface.
@@ -27,6 +27,8 @@ public class DefaultEmployeeServiceDAO implements EmployeeServiceDAO {
 
     private EntityManagerFactory entityManagerFactory;
     private EntityManager manager;
+
+    private MessageSource messages;
 
     /**
      * Default Constructor.
@@ -54,12 +56,18 @@ public class DefaultEmployeeServiceDAO implements EmployeeServiceDAO {
     public EmployeeEntity getEmployeeById(long id) throws EmployeeNotFoundException {
         EmployeeEntity employee = null;
         try {
-            employee = manager.createQuery("SELECT e FROM EmployeeEntity e WHERE id = :id", EmployeeEntity.class).setParameter("id", id).getSingleResult();
+            employee = manager.createQuery("SELECT e FROM EmployeeEntity e WHERE id = :id", EmployeeEntity.class).setParameter("id", id)
+                    .getSingleResult();
+        } catch (NoResultException nre) {
+            String message = messages.getMessage("entity.not.found", new Object[]{id}, null);
+            throw new EmployeeNotFoundException(message);
         } catch (Exception e) {
-            throw new DatabaseErrorException("prooblem");
+            String message = messages.getMessage("database.error", new Object[]{id}, null);
+            throw new DatabaseErrorException(message);
         }
         if (employee == null) {
-            throw new EmployeeNotFoundException("EmployeeEntity with id: " + id + "not found.");
+            String message = messages.getMessage("entity.not.found", new Object[]{id}, null);
+            throw new EmployeeNotFoundException(message);
         }
         return employee;
     }
@@ -115,7 +123,14 @@ public class DefaultEmployeeServiceDAO implements EmployeeServiceDAO {
     public void updateEmployee(EmployeeEntity employee) {
         LOG.info("EmployeeEntity [" + employee + "] is getting edited.");
         try {
-            manager.merge(employee);
+            LOG.debug(employee.toString());
+            manager.getTransaction().begin();
+            EmployeeEntity updated = getEmployeeById(employee.getId());
+            updated.setName(employee.getName());
+            updated.setEmail(employee.getEmail());
+            //manager.(employee);
+            manager.merge(updated);
+            manager.getTransaction().commit();
         } catch (Exception e) {
             LOG.error(e.getMessage());
         }
@@ -127,6 +142,14 @@ public class DefaultEmployeeServiceDAO implements EmployeeServiceDAO {
 
     public void setEntityManagerFactory(EntityManagerFactory entityManagerFactory) {
         this.entityManagerFactory = entityManagerFactory;
+    }
+
+    public MessageSource getMessages() {
+        return messages;
+    }
+
+    public void setMessages(MessageSource messages) {
+        this.messages = messages;
     }
 
 }

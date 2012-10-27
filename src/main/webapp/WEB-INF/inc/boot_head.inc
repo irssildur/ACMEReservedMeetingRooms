@@ -1,4 +1,5 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
  
 <c:url var="resourceUrl" value="/resources/" />
  
@@ -6,7 +7,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>ACME Meetingroom Reservation</title>
+<title><spring:message code="title" /></title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="">

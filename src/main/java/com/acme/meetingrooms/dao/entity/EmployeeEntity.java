@@ -18,8 +18,8 @@ public class EmployeeEntity {
     @Id
     private long id;
 
-    private String name;
-    private String email;
+    private String name = "";
+    private String email = "";
 
     public long getId() {
         return id;

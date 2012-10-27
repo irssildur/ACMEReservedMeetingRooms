@@ -18,6 +18,7 @@
     <script src="${resourceUrl}js/bootstrap-collapse.js"></script>
     <script src="${resourceUrl}js/bootstrap-carousel.js"></script>
     <script src="${resourceUrl}js/bootstrap-typeahead.js"></script>
+    <script src="${resourceUrl}js/jquery-1.8.2.js"></script>
 
   </body>
 </html>

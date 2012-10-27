@@ -13,10 +13,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.acme.meetingrooms.controller.form.EmployeeForm;
+import com.acme.meetingrooms.service.EmployeeNotFoundException;
 import com.acme.meetingrooms.service.EmployeeService;
+import com.acme.meetingrooms.service.builder.EmployeeBuilder;
 import com.acme.meetingrooms.service.converter.EmployeeConverter;
 import com.acme.meetingrooms.service.dto.EmployeeDTO;
 
@@ -26,7 +29,7 @@ import com.acme.meetingrooms.service.dto.EmployeeDTO;
  *
  */
 @Controller
-@RequestMapping(value = "/employees/*")
+@RequestMapping(value = "/employees")
 public class EmployeeController {
 
     private static Logger logger = LoggerFactory.getLogger(EmployeeController.class);
@@ -34,41 +37,39 @@ public class EmployeeController {
     private EmployeeService employeeService;
     private EmployeeConverter<EmployeeForm, EmployeeDTO> employeeFormToDTOConverter;
 
+    private EmployeeBuilder<EmployeeDTO> dtoBuilder;
+
     /**
      * asdf.
      * @param locale asdf
      * @param model asdf
      * @return asdf
      */
-    @RequestMapping(value = "list", method = RequestMethod.GET)
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String listEmployees(Locale locale, Model model) {
-
-        logger.debug("employeeService is a class of: " + employeeService.getClass().getName());
 
         List<EmployeeDTO> employees = employeeService.getAllEmployees();
 
-        for (EmployeeDTO employeeDTO : employees) {
-            logger.debug("BeforeemployeeID:" + employeeDTO.getId());
-        }
-
         model.addAttribute("employees", employees);
-
-        for (EmployeeDTO employeeDTO : employees) {
-            logger.debug("AfteremployeeID:" + employeeDTO.getId());
-        }
 
         return "employees/list";
     }
 
-    @RequestMapping(value = "add")
-    public String addEmployee(Model model, EmployeeForm employeeForm, BindingResult result, RedirectAttributes flash, HttpServletRequest request) {
+    @RequestMapping(value = "/add", method = RequestMethod.GET)
+    public String addEmployee(Model model, HttpServletRequest request) {
 
-        logger.debug("employeeFormToDTOConverter is a class of: " + employeeFormToDTOConverter.getClass().getName());
+        //logger.debug("employeeFormToDTOConverter is a class of: " + employeeFormToDTOConverter.getClass().getName());
+        model.addAttribute("employeeForm", new EmployeeForm());
+        return "employees/add";
 
-        if (request.getParameter("submit") == null) {
-            return "employees/add";
-        } else if (result.hasErrors()) {
+    }
+
+    @RequestMapping(value = "/save", method = RequestMethod.GET)
+    public String saveEmployee(Model model, EmployeeForm employeeForm, BindingResult result, RedirectAttributes flash, HttpServletRequest request) {
+
+        if (result.hasErrors()) {
             model.addAttribute("errors", result.getAllErrors());
+            logger.debug(result.getAllErrors().toString());
             return "employees/add";
         } else {
             EmployeeDTO employeeDTO = employeeFormToDTOConverter.convert(employeeForm);
@@ -79,30 +80,38 @@ public class EmployeeController {
 
     }
 
-    @RequestMapping(value = "remove/{id}")
-    public String removeEmployee(Model model, HttpServletRequest request, @PathVariable Long id) {
+    @RequestMapping(value = "/remove")
+    public String removeEmployee(@RequestParam(value = "id") String id, Model model, HttpServletRequest request) {
 
-        employeeService.removeEmployee(id);
+        logger.debug(id);
+        Long removeId = Long.parseLong(id);
+        employeeService.removeEmployee(removeId);
 
         return "redirect:/employees/list";
     }
 
-    //    @RequestMapping(value = "edit/{id}", method = RequestMethod.GET)
-    //    public String editEmployee(Model model, @PathVariable Long id, HttpServletRequest request) {
-    //
-    //        EmployeeEntity employeeToShow = employeeService.getEmployeeById(id);
-    //        model.addAttribute("employee", employeeToShow);
-    //        return "employees/edit";
-    //
-    //    }
-    //
-    //    @RequestMapping(value = "edit/{id}", method = RequestMethod.POST)
-    //    public String editEmployee(Model model, @PathVariable Long id, HttpServletRequest request, @Valid EmployeeEntity employee) {
-    //
-    //        employeeService.updateEmployee(employee);
-    //
-    //        return "redirect:/employees/list";
-    //    }
+    @RequestMapping(value = "/edit", method = RequestMethod.GET)
+    public String editEmployee(@RequestParam(value = "id") String id, Model model, HttpServletRequest request) throws EmployeeNotFoundException {
+
+        Long editId = Long.parseLong(id);
+
+        EmployeeDTO employeeToShow;
+
+        employeeToShow = employeeService.getEmployeeById(editId);
+
+        model.addAttribute("employee", employeeToShow);
+        return "employees/edit";
+
+    }
+
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    public String editEmployee(Model model, HttpServletRequest request, EmployeeDTO employee) {
+        //EmployeeDTO toUpdate = employeeFormToDTOConverter.convert(employee);
+        //employeeService.updateEmployee(toUpdate);
+        employeeService.updateEmployee(employee);
+
+        return "redirect:/employees/list";
+    }
 
     public EmployeeService getEmployeeService() {
         return employeeService;

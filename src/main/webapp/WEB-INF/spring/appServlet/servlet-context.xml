@@ -29,6 +29,17 @@
 	
 	<!-- misc -->
 	
+	<beans:bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+	    <beans:property name="basenames">
+	        <beans:list>
+	            <beans:value>exceptions</beans:value>
+	            <beans:value>messages</beans:value>
+	            <beans:value>error_pages</beans:value>
+	        </beans:list>
+	    </beans:property>
+<!-- 	    <beans:property name="useCodeAsDefaultMessage" value="true" /> -->
+	</beans:bean>
+	
 	<beans:bean id="entityManagerFactory" class="javax.persistence.Persistence" autowire-candidate="true" factory-method="createEntityManagerFactory">
 	    <beans:constructor-arg name="persistenceUnitName" value="persistenceUnit" />
 	</beans:bean>
@@ -56,7 +67,8 @@
 	<!-- service -->
 
 	<beans:bean id="defaultEmployeeServiceDAO" class="com.acme.meetingrooms.service.DefaultEmployeeServiceDAO">
-	    <beans:property name="entityManagerFactory" ref="entityManagerFactory"></beans:property>
+	    <beans:property name="entityManagerFactory" ref="entityManagerFactory" />
+	    <beans:property name="messages" ref="messageSource" />
 	</beans:bean>
 	
 	<beans:bean id="employeeService" class="com.acme.meetingrooms.service.DefaultEmployeeService">
