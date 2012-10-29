@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,8 +45,9 @@ public class EmployeeController {
      * @param model asdf
      * @return asdf
      */
+
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public String listEmployees(Locale locale, Model model) {
+    public String listEmployees(Model model) {
 
         List<EmployeeDTO> employees = employeeService.getAllEmployees();
 
@@ -63,8 +65,8 @@ public class EmployeeController {
 
     }
 
-    @RequestMapping(value = "/save", method = RequestMethod.GET)
-    public String saveEmployee(Model model, EmployeeForm employeeForm, BindingResult result, RedirectAttributes flash, HttpServletRequest request) {
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public String saveEmployee(Model model, @Valid EmployeeForm employeeForm, BindingResult result, RedirectAttributes flash, HttpServletRequest request) {
 
         if (result.hasErrors()) {
             model.addAttribute("errors", result.getAllErrors());
@@ -86,7 +88,8 @@ public class EmployeeController {
         Long removeId = Long.parseLong(id);
         employeeService.removeEmployee(removeId);
 
-        return "redirect:/employees/list";
+        //return "redirect:/employees/list";
+        return listEmployees(model);
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.GET)

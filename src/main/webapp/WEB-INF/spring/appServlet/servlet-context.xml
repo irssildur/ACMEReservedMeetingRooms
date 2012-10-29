@@ -35,6 +35,7 @@
 	            <beans:value>exceptions</beans:value>
 	            <beans:value>messages</beans:value>
 	            <beans:value>error_pages</beans:value>
+	            <beans:value>validator_errors</beans:value>
 	        </beans:list>
 	    </beans:property>
 <!-- 	    <beans:property name="useCodeAsDefaultMessage" value="true" /> -->

@@ -5,8 +5,6 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
-${errors}
-
 <form:form method="POST" commandName="employee">
 	<label for="name"><spring:message code="name" />: (${employee.name})</label>
 	<form:input id="name" path="name"/>
@@ -15,5 +13,5 @@ ${errors}
 	<form:input id="email" path="email"/>
 	<br/>
 	<form:hidden path="id" id="id" />
-	<input type="submit" name="submit" value="<spring:message code="submit.btn" />: "/>
+	<input type="submit" name="submit" value="<spring:message code="submit.btn" /> "/>
 </form:form>
