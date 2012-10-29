@@ -5,9 +5,9 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.convert.converter.Converter;
 
 import com.acme.meetingrooms.dao.entity.EmployeeEntity;
-import com.acme.meetingrooms.service.converter.EmployeeConverter;
 import com.acme.meetingrooms.service.dto.EmployeeDTO;
 
 /**
@@ -18,8 +18,8 @@ public class DefaultEmployeeService implements EmployeeService {
     private static Logger logger = LoggerFactory.getLogger(DefaultEmployeeService.class);
 
     private EmployeeServiceDAO dao;
-    private EmployeeConverter<EmployeeEntity, EmployeeDTO> employeeDAOToDTOConverter;
-    private EmployeeConverter<EmployeeDTO, EmployeeEntity> employeeDTOToDAOConverter;
+    private Converter<EmployeeEntity, EmployeeDTO> employeeDAOToDTOConverter;
+    private Converter<EmployeeDTO, EmployeeEntity> employeeDTOToDAOConverter;
 
     /**
      * Default constructor.
@@ -33,7 +33,7 @@ public class DefaultEmployeeService implements EmployeeService {
      * @param dao an {@link EmployeeServiceDAO} object
      * @param employeeConverter an {@link EmployeeConverter} object
      */
-    public DefaultEmployeeService(EmployeeServiceDAO dao, EmployeeConverter<EmployeeEntity, EmployeeDTO> employeeConverter) {
+    public DefaultEmployeeService(EmployeeServiceDAO dao, Converter<EmployeeEntity, EmployeeDTO> employeeConverter) {
         this.dao = dao;
         this.employeeDAOToDTOConverter = employeeConverter;
     }
@@ -88,19 +88,19 @@ public class DefaultEmployeeService implements EmployeeService {
         this.dao = dao;
     }
 
-    public EmployeeConverter<EmployeeEntity, EmployeeDTO> getEmployeeDAOToDTOConverter() {
+    public Converter<EmployeeEntity, EmployeeDTO> getEmployeeDAOToDTOConverter() {
         return employeeDAOToDTOConverter;
     }
 
-    public void setEmployeeDAOToDTOConverter(EmployeeConverter<EmployeeEntity, EmployeeDTO> employeeDAOToDTOConverter) {
+    public void setEmployeeDAOToDTOConverter(Converter<EmployeeEntity, EmployeeDTO> employeeDAOToDTOConverter) {
         this.employeeDAOToDTOConverter = employeeDAOToDTOConverter;
     }
 
-    public EmployeeConverter<EmployeeDTO, EmployeeEntity> getEmployeeDTOToDAOConverter() {
+    public Converter<EmployeeDTO, EmployeeEntity> getEmployeeDTOToDAOConverter() {
         return employeeDTOToDAOConverter;
     }
 
-    public void setEmployeeDTOToDAOConverter(EmployeeConverter<EmployeeDTO, EmployeeEntity> employeeDTOToDAOConverter) {
+    public void setEmployeeDTOToDAOConverter(Converter<EmployeeDTO, EmployeeEntity> employeeDTOToDAOConverter) {
         this.employeeDTOToDAOConverter = employeeDTOToDAOConverter;
     }
 

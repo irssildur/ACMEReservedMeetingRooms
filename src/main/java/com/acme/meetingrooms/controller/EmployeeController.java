@@ -7,10 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,7 +20,6 @@ import com.acme.meetingrooms.controller.form.EmployeeForm;
 import com.acme.meetingrooms.service.EmployeeNotFoundException;
 import com.acme.meetingrooms.service.EmployeeService;
 import com.acme.meetingrooms.service.builder.EmployeeBuilder;
-import com.acme.meetingrooms.service.converter.EmployeeConverter;
 import com.acme.meetingrooms.service.dto.EmployeeDTO;
 
 /**
@@ -35,7 +34,7 @@ public class EmployeeController {
     private static Logger logger = LoggerFactory.getLogger(EmployeeController.class);
 
     private EmployeeService employeeService;
-    private EmployeeConverter<EmployeeForm, EmployeeDTO> employeeFormToDTOConverter;
+    private Converter<EmployeeForm, EmployeeDTO> employeeFormToDTOConverter;
 
     private EmployeeBuilder<EmployeeDTO> dtoBuilder;
 
@@ -121,11 +120,11 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    public EmployeeConverter<EmployeeForm, EmployeeDTO> getEmployeeFormToDTOConverter() {
+    public Converter<EmployeeForm, EmployeeDTO> getEmployeeFormToDTOConverter() {
         return employeeFormToDTOConverter;
     }
 
-    public void setEmployeeFormToDTOConverter(EmployeeConverter<EmployeeForm, EmployeeDTO> employeeFormToDTOConverter) {
+    public void setEmployeeFormToDTOConverter(Converter<EmployeeForm, EmployeeDTO> employeeFormToDTOConverter) {
         this.employeeFormToDTOConverter = employeeFormToDTOConverter;
     }
 

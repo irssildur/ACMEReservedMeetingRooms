@@ -1,5 +1,7 @@
 package com.acme.meetingrooms.service.converter;
 
+import org.springframework.core.convert.converter.Converter;
+
 import com.acme.meetingrooms.controller.form.EmployeeForm;
 import com.acme.meetingrooms.service.builder.EmployeeBuilder;
 import com.acme.meetingrooms.service.dto.EmployeeDTO;
@@ -8,7 +10,7 @@ import com.acme.meetingrooms.service.dto.EmployeeDTO;
  * Concrete implementation of the interface EmployeeConverter.
  * @author Istvan_Hever
  */
-public class EmployeeFormToDTOConverter implements EmployeeConverter<EmployeeForm, EmployeeDTO> {
+public class EmployeeFormToDTOConverter implements Converter<EmployeeForm, EmployeeDTO> {
 
     private EmployeeBuilder<EmployeeDTO> builder;
 
