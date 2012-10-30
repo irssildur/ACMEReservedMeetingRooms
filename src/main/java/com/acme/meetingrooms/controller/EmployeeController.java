@@ -76,7 +76,7 @@ public class EmployeeController {
             EmployeeDTO employeeDTO = employeeFormToDTOConverter.convert(employeeForm);
             employeeService.addEmployee(employeeDTO);
             flash.addAttribute("msg", "You have succesfully added: " + employeeForm.getName());
-            return "redirect:/employees/list";
+            return listEmployees(model);
         }
 
     }
@@ -112,7 +112,7 @@ public class EmployeeController {
         //employeeService.updateEmployee(toUpdate);
         employeeService.updateEmployee(employee);
 
-        return "redirect:/employees/list";
+        return listEmployees(model);
     }
 
     public EmployeeService getEmployeeService() {

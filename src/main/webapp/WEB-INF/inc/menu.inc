@@ -14,13 +14,22 @@
 			<a class="brand" href="#"><spring:message code="menu.title" /></a>
 			<div class="nav-collapse collapse">
 				<ul class="nav">
-					<li class="active">
-						<a href="${listUrl}"><spring:message code="menu.list.employees" /></a>
+				
+				
+					<li class="dropdown">
+   						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+      						Employees
+      						<b class="caret"></b>
+    					</a>
+						<ul class="dropdown-menu">
+							<li>
+								<a href="${listUrl}"><spring:message code="menu.list.employees" /></a>
+							</li>
+							<li>
+								<a href="${addUrl}"><spring:message code="menu.add.employee" /></a>
+							</li>
+						</ul>
 					</li>
-					<li>
-						<a href="${addUrl}"><spring:message code="menu.add.employee" /></a>
-					</li>
-					
 				</ul>
 			</div> <!--/.nav-collapse -->
 		</div>

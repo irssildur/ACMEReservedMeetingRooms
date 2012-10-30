@@ -26,7 +26,7 @@
       <jsp-property-group>
           <url-pattern>*.jsp</url-pattern>
           <include-prelude>/WEB-INF/inc/boot_head.inc</include-prelude>
-          <include-coda>/WEB-INF/inc/boot_foot.inc</include-coda>
+          <include-coda>/WEB-INF/inc/boot_foot.jsp</include-coda>
       </jsp-property-group>
   </jsp-config>
   
