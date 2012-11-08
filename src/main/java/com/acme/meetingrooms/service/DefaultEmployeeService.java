@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.converter.Converter;
 
+import com.acme.meetingrooms.dao.EmployeeDAO;
+import com.acme.meetingrooms.dao.EmployeeNotFoundException;
 import com.acme.meetingrooms.dao.entity.EmployeeEntity;
 import com.acme.meetingrooms.service.dto.EmployeeDTO;
 
@@ -17,7 +19,7 @@ public class DefaultEmployeeService implements EmployeeService {
 
     private static Logger logger = LoggerFactory.getLogger(DefaultEmployeeService.class);
 
-    private EmployeeServiceDAO dao;
+    private EmployeeDAO dao;
     private Converter<EmployeeEntity, EmployeeDTO> employeeDAOToDTOConverter;
     private Converter<EmployeeDTO, EmployeeEntity> employeeDTOToDAOConverter;
 
@@ -30,10 +32,10 @@ public class DefaultEmployeeService implements EmployeeService {
 
     /**
      * Constructor.
-     * @param dao an {@link EmployeeServiceDAO} object
+     * @param dao an {@link EmployeeDAO} object
      * @param employeeConverter an {@link EmployeeConverter} object
      */
-    public DefaultEmployeeService(EmployeeServiceDAO dao, Converter<EmployeeEntity, EmployeeDTO> employeeConverter) {
+    public DefaultEmployeeService(EmployeeDAO dao, Converter<EmployeeEntity, EmployeeDTO> employeeConverter) {
         this.dao = dao;
         this.employeeDAOToDTOConverter = employeeConverter;
     }
@@ -80,11 +82,11 @@ public class DefaultEmployeeService implements EmployeeService {
         dao.removeEmployee(employeeDAO);
     }
 
-    public EmployeeServiceDAO getDao() {
+    public EmployeeDAO getDao() {
         return dao;
     }
 
-    public void setDao(EmployeeServiceDAO dao) {
+    public void setDao(EmployeeDAO dao) {
         this.dao = dao;
     }
 

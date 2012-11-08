@@ -6,11 +6,10 @@
 		<properties>
 			<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/meetingRoomsDB?useUnicode=true&amp;connectionCollation=utf8_general_ci&amp;characterSetResults=utf8&amp;characterEncoding=utf8"/>
 			<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
+			<property name="hibernate.connection.autocommit" value="true" />
 			<property name="hibernate.connection.password" value="root"/>
 			<property name="hibernate.connection.username" value="root"/>
 			<property name="hibernate.hbm2ddl.auto" value="update"/>
-
-
 		</properties>
 	</persistence-unit>
 </persistence>

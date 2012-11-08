@@ -1,4 +1,4 @@
-package com.acme.meetingrooms.service;
+package com.acme.meetingrooms.dao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,14 +16,17 @@ import org.springframework.stereotype.Repository;
 import com.acme.meetingrooms.dao.entity.EmployeeEntity;
 
 /**
- * A JPA based implementation of the {@link EmployeeServiceDAO} interface.
+ * A JPA based implementation of the {@link EmployeeDAO} interface.
  * @author Istvan_Hever
  *
  */
 @Repository
-public class DefaultEmployeeServiceDAO implements EmployeeServiceDAO {
+public class DefaultEmployeeDAO implements EmployeeDAO {
 
-    private static final Logger LOG = LoggerFactory.getLogger(DefaultEmployeeServiceDAO.class);
+    private static final String EXCEPTIONS_PERSISTENCE_DATABASE_ERROR = "exceptions.persistence.database.error";
+    private static final String EXCEPTIONS_PERSISTENCE_ENTITY_NOT_FOUND = "exceptions.persistence.entity.not.found";
+
+    private static final Logger LOG = LoggerFactory.getLogger(DefaultEmployeeDAO.class);
 
     private EntityManagerFactory entityManagerFactory;
     private EntityManager manager;
@@ -33,14 +36,14 @@ public class DefaultEmployeeServiceDAO implements EmployeeServiceDAO {
     /**
      * Default Constructor.
      */
-    public DefaultEmployeeServiceDAO() {
+    public DefaultEmployeeDAO() {
     }
 
     /**
      * Constructor.
      * @param entityManager an {@link EntityManager} instance
      */
-    public DefaultEmployeeServiceDAO(EntityManager entityManager) {
+    public DefaultEmployeeDAO(EntityManager entityManager) {
         manager = entityManager;
     }
 
@@ -59,14 +62,14 @@ public class DefaultEmployeeServiceDAO implements EmployeeServiceDAO {
             employee = manager.createQuery("SELECT e FROM EmployeeEntity e WHERE id = :id", EmployeeEntity.class).setParameter("id", id)
                     .getSingleResult();
         } catch (NoResultException nre) {
-            String message = messages.getMessage("entity.not.found", new Object[]{id}, null);
+            String message = messages.getMessage(EXCEPTIONS_PERSISTENCE_ENTITY_NOT_FOUND, new Object[]{id}, null);
             throw new EmployeeNotFoundException(message);
         } catch (Exception e) {
-            String message = messages.getMessage("database.error", new Object[]{id}, null);
+            String message = messages.getMessage(EXCEPTIONS_PERSISTENCE_DATABASE_ERROR, new Object[]{id}, null);
             throw new DatabaseErrorException(message);
         }
         if (employee == null) {
-            String message = messages.getMessage("entity.not.found", new Object[]{id}, null);
+            String message = messages.getMessage(EXCEPTIONS_PERSISTENCE_ENTITY_NOT_FOUND, new Object[]{id}, null);
             throw new EmployeeNotFoundException(message);
         }
         return employee;

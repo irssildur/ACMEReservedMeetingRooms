@@ -2,6 +2,7 @@ package com.acme.meetingrooms.service;
 
 import java.util.List;
 
+import com.acme.meetingrooms.dao.EmployeeNotFoundException;
 import com.acme.meetingrooms.service.dto.EmployeeDTO;
 
 /**

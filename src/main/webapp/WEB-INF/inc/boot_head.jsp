@@ -16,6 +16,7 @@
 <!-- Le styles -->
 <link href="${resourceUrl}css/bootstrap.css" rel="stylesheet">
 <link href="${resourceUrl}css/docs.css" rel="stylesheet">
+<link href="${resourceUrl}css/style.css" rel="stylesheet">
 <style>
 body {
        
@@ -37,6 +38,6 @@ body {
 </head>
  
 <body>
-	<%@ include file="menu.inc" %>
+	<%@ include file="menu.jsp" %>
 	
 	<div class="container" style="margin-top:80px;">

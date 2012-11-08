@@ -24,18 +24,60 @@
 	
 	<context:component-scan base-package="com.acme.meetingrooms" />
 	
-	
-	
-	
 	<!-- misc -->
+
+
+
+
+	<interceptors>
+	    <beans:bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+	        <beans:property name="paramName" value="lang"/>
+	    </beans:bean>
+	</interceptors>
+
+
+
+
+
+
+
+
+
+
+
+	
+ 
+<!-- 	<beans:bean id="urlMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"> -->
+<!--     	<beans:property name="interceptors"> -->
+<!--         	<beans:list> -->
+<!--           		<beans:ref bean="localeChangeInterceptor"/> -->
+<!-- 			</beans:list> -->
+<!-- 		</beans:property> -->
+<!-- 		<beans:property name="mappings"> -->
+<!-- 			<beans:value>/**/*.view=employees</beans:value> -->
+<!-- 		</beans:property> -->
+<!-- 	</beans:bean> -->
+
+	<beans:bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+	    <beans:property name="defaultLocale" value="en"/>
+	</beans:bean>
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
 	
 	<beans:bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
 	    <beans:property name="basenames">
 	        <beans:list>
-	            <beans:value>exceptions</beans:value>
 	            <beans:value>messages</beans:value>
-	            <beans:value>error_pages</beans:value>
-	            <beans:value>validator_errors</beans:value>
 	        </beans:list>
 	    </beans:property>
 <!-- 	    <beans:property name="useCodeAsDefaultMessage" value="true" /> -->
@@ -44,36 +86,27 @@
 	<beans:bean id="entityManagerFactory" class="javax.persistence.Persistence" autowire-candidate="true" factory-method="createEntityManagerFactory">
 	    <beans:constructor-arg name="persistenceUnitName" value="persistenceUnit" />
 	</beans:bean>
-	
-	<!-- service.builder -->
-	
-	<beans:bean id="employeeDTOBuilder" class="com.acme.meetingrooms.service.builder.EmployeeDTOBuilder" />
-	<beans:bean id="employeeDAOBuilder" class="com.acme.meetingrooms.service.builder.EmployeeEntityBuilder" />
-	<beans:bean id="employeeFormBuilder" class="com.acme.meetingrooms.service.builder.EmployeeFormBuilder" />
-	
+		
 	<!-- service.converter -->
 	
-	<beans:bean id="employeeDAOToDTOConverter" class="com.acme.meetingrooms.service.converter.EmployeeDAOToDTOConverter">
-	    <beans:property name="builder" ref="employeeDTOBuilder"/>
-	</beans:bean>
+	<beans:bean id="employeeDAOToDTOConverter" class="com.acme.meetingrooms.service.converter.EmployeeDAOToDTOConverter" />
+	    
 	
-	<beans:bean id="employeeDTOToDAOConverter" class="com.acme.meetingrooms.service.converter.EmployeeDTOToDAOConverter">
-	    <beans:property name="builder" ref="employeeDAOBuilder"/>
-	</beans:bean>
+	<beans:bean id="employeeDTOToDAOConverter" class="com.acme.meetingrooms.service.converter.EmployeeDTOToDAOConverter" />
+	   
 	
-	<beans:bean id="employeeFormToDTOConverter" class="com.acme.meetingrooms.service.converter.EmployeeFormToDTOConverter">
-	    <beans:property name="builder" ref="employeeDTOBuilder"/>
-	</beans:bean>
+	<beans:bean id="employeeFormToDTOConverter" class="com.acme.meetingrooms.service.converter.EmployeeFormToDTOConverter" />
+	   
 	
 	<!-- service -->
 
-	<beans:bean id="defaultEmployeeServiceDAO" class="com.acme.meetingrooms.service.DefaultEmployeeServiceDAO">
+	<beans:bean id="defaultEmployeeDAO" class="com.acme.meetingrooms.dao.DefaultEmployeeDAO">
 	    <beans:property name="entityManagerFactory" ref="entityManagerFactory" />
 	    <beans:property name="messages" ref="messageSource" />
 	</beans:bean>
 	
 	<beans:bean id="employeeService" class="com.acme.meetingrooms.service.DefaultEmployeeService">
-	    <beans:property name="dao" ref="defaultEmployeeServiceDAO" />
+	    <beans:property name="dao" ref="defaultEmployeeDAO" />
 	    <beans:property name="employeeDAOToDTOConverter" ref="employeeDAOToDTOConverter" />
 	    <beans:property name="employeeDTOToDAOConverter" ref="employeeDTOToDAOConverter" />
 	</beans:bean>

@@ -3,7 +3,6 @@ package com.acme.meetingrooms.service.converter;
 import org.springframework.core.convert.converter.Converter;
 
 import com.acme.meetingrooms.dao.entity.EmployeeEntity;
-import com.acme.meetingrooms.service.builder.EmployeeBuilder;
 import com.acme.meetingrooms.service.dto.EmployeeDTO;
 
 /**
@@ -12,7 +11,6 @@ import com.acme.meetingrooms.service.dto.EmployeeDTO;
  */
 public class EmployeeDTOToDAOConverter implements Converter<EmployeeDTO, EmployeeEntity> {
 
-    private EmployeeBuilder<EmployeeEntity> builder;
 
     /**
      * Generic method for Converting Employee representations from one to another.
@@ -20,10 +18,13 @@ public class EmployeeDTOToDAOConverter implements Converter<EmployeeDTO, Employe
      * @return an EmployeeDTO.
      */
     public EmployeeEntity convert(EmployeeDTO convertable) {
-        return builder.getBuilder().withId(convertable.getId()).withName(convertable.getName()).withEmail(convertable.getEmail()).build();
+
+        EmployeeEntity converted = new EmployeeEntity();
+        converted.setId(convertable.getId());
+        converted.setName(convertable.getName());
+        converted.setEmail(convertable.getEmail());
+
+        return converted;
     }
 
-    public void setBuilder(EmployeeBuilder<EmployeeEntity> builder) {
-        this.builder = builder;
-    }
 }

@@ -18,7 +18,7 @@
 				
 					<li class="dropdown">
    						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-      						Employees
+      						<spring:message code="menu.employees.title" />
       						<b class="caret"></b>
     					</a>
 						<ul class="dropdown-menu">
@@ -31,7 +31,14 @@
 						</ul>
 					</li>
 				</ul>
+				
 			</div> <!--/.nav-collapse -->
+			<div class="pull-right" >
+					<div style="position:absolute; top:25%;">
+						<a class="muted" href="?lang=en">en</a>
+						<a class="muted" href="?lang=hu">hu</a>
+					</div>
+				</div>
 		</div>
 	</div>
 </div>

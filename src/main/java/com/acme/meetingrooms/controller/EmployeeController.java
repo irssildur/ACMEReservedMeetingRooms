@@ -1,10 +1,14 @@
 package com.acme.meetingrooms.controller;
 
 import java.util.List;
+
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+
+import lombok.Getter;
+import lombok.Setter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,9 +22,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.acme.meetingrooms.controller.form.EmployeeForm;
-import com.acme.meetingrooms.service.EmployeeNotFoundException;
+import com.acme.meetingrooms.dao.EmployeeNotFoundException;
 import com.acme.meetingrooms.service.EmployeeService;
-import com.acme.meetingrooms.service.builder.EmployeeBuilder;
 import com.acme.meetingrooms.service.dto.EmployeeDTO;
 
 /**
@@ -32,12 +35,32 @@ import com.acme.meetingrooms.service.dto.EmployeeDTO;
 @RequestMapping(value = "/employees")
 public class EmployeeController {
 
+    private static final String SAVE_EDITED_MAPPING = "/save_edited";
+
+    private static final String EDIT_MAPPING = "/edit";
+
+    private static final String REMOVE_MAPPING = "/remove";
+
+    private static final String SAVE_MAPPING = "/save";
+
+    private static final String ADD_MAPPING = "/add";
+
+    private static final String LIST_MAPPING = "/list";
+
+    private static final String EMPLOYEES_LIST_VIEW = "employees/list";
+
+    private static final String EMPLOYEES_ADD_VIEW = "employees/add";
+
+    private static final String EMPLOYEES_EDIT_VIEW = "employees/edit";
+
     private static Logger logger = LoggerFactory.getLogger(EmployeeController.class);
 
+    @Getter
+    @Setter
     private EmployeeService employeeService;
+    @Getter
+    @Setter
     private Converter<EmployeeForm, EmployeeDTO> employeeFormToDTOConverter;
-
-    private EmployeeBuilder<EmployeeDTO> dtoBuilder;
 
     /**
      * asdf.
@@ -46,32 +69,32 @@ public class EmployeeController {
      * @return asdf
      */
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping(value = LIST_MAPPING, method = RequestMethod.GET)
     public String listEmployees(Model model) {
 
         List<EmployeeDTO> employees = employeeService.getAllEmployees();
 
         model.addAttribute("employees", employees);
 
-        return "employees/list";
+        return EMPLOYEES_LIST_VIEW;
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.GET)
+    @RequestMapping(value = ADD_MAPPING, method = RequestMethod.GET)
     public String addEmployee(Model model, HttpServletRequest request) {
 
-        //logger.debug("employeeFormToDTOConverter is a class of: " + employeeFormToDTOConverter.getClass().getName());
         model.addAttribute("employeeForm", new EmployeeForm());
-        return "employees/add";
+        return EMPLOYEES_ADD_VIEW;
 
     }
 
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public String saveEmployee(Model model, @Valid EmployeeForm employeeForm, BindingResult result, RedirectAttributes flash, HttpServletRequest request) {
+    @RequestMapping(value = SAVE_MAPPING, method = RequestMethod.POST)
+    public String saveEmployee(Model model, @Valid EmployeeForm employeeForm, BindingResult result, RedirectAttributes flash,
+            HttpServletRequest request) {
 
         if (result.hasErrors()) {
             model.addAttribute("errors", result.getAllErrors());
             logger.debug(result.getAllErrors().toString());
-            return "employees/add";
+            return EMPLOYEES_ADD_VIEW;
         } else {
             EmployeeDTO employeeDTO = employeeFormToDTOConverter.convert(employeeForm);
             employeeService.addEmployee(employeeDTO);
@@ -81,7 +104,7 @@ public class EmployeeController {
 
     }
 
-    @RequestMapping(value = "/remove")
+    @RequestMapping(value = REMOVE_MAPPING)
     public String removeEmployee(@RequestParam(value = "id") String id, Model model, HttpServletRequest request) {
 
         logger.debug(id);
@@ -92,7 +115,7 @@ public class EmployeeController {
         return listEmployees(model);
     }
 
-    @RequestMapping(value = "/edit", method = RequestMethod.GET)
+    @RequestMapping(value = EDIT_MAPPING, method = RequestMethod.GET)
     public String editEmployee(@RequestParam(value = "id") String id, Model model, HttpServletRequest request) throws EmployeeNotFoundException {
 
         Long editId = Long.parseLong(id);
@@ -102,33 +125,23 @@ public class EmployeeController {
         employeeToShow = employeeService.getEmployeeById(editId);
 
         model.addAttribute("employee", employeeToShow);
-        return "employees/edit";
+        return EMPLOYEES_EDIT_VIEW;
 
     }
 
-    @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public String editEmployee(Model model, HttpServletRequest request, EmployeeDTO employee) {
-        //EmployeeDTO toUpdate = employeeFormToDTOConverter.convert(employee);
-        //employeeService.updateEmployee(toUpdate);
-        employeeService.updateEmployee(employee);
+    @RequestMapping(value = SAVE_EDITED_MAPPING, method = RequestMethod.POST)
+    public String editEmployee(Model model, @Valid EmployeeForm employee, BindingResult result, HttpServletRequest request) {
+
+        if (result.hasErrors()) {
+            model.addAttribute("errors", result.getAllErrors());
+            logger.debug(result.getAllErrors().toString());
+            return EMPLOYEES_EDIT_VIEW;
+        } else {
+            EmployeeDTO employeeDTO = employeeFormToDTOConverter.convert(employee);
+            employeeService.updateEmployee(employeeDTO);
+        }
 
         return listEmployees(model);
-    }
-
-    public EmployeeService getEmployeeService() {
-        return employeeService;
-    }
-
-    public void setEmployeeService(EmployeeService employeeService) {
-        this.employeeService = employeeService;
-    }
-
-    public Converter<EmployeeForm, EmployeeDTO> getEmployeeFormToDTOConverter() {
-        return employeeFormToDTOConverter;
-    }
-
-    public void setEmployeeFormToDTOConverter(Converter<EmployeeForm, EmployeeDTO> employeeFormToDTOConverter) {
-        this.employeeFormToDTOConverter = employeeFormToDTOConverter;
     }
 
 }

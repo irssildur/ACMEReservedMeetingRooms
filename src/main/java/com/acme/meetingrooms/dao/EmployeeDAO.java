@@ -1,4 +1,4 @@
-package com.acme.meetingrooms.service;
+package com.acme.meetingrooms.dao;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import com.acme.meetingrooms.dao.entity.EmployeeEntity;
  * Interface for the Employee Repositories.
  * @author Istvan_Hever
  */
-public interface EmployeeServiceDAO {
+public interface EmployeeDAO {
 
     /**
      * Gets an Employee from the repository. If there are no employees in the repo, it throws .
