@@ -20,6 +20,18 @@
 		<level value="debug" />
 	</logger>
 
+	<logger name="com.acme.meetingrooms.service.DefaultAjaxEmployeeService">
+		<level value="debug" />
+	</logger>
+
+
+
+
+
+
+
+
+
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core">
 		<level value="info" />
@@ -36,6 +48,10 @@
 	<logger name="org.springframework.web">
 		<level value="info" />
 	</logger>
+
+
+
+
 
 	<!-- Root Logger -->
 	<root>

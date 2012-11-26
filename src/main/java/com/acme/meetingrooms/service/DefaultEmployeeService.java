@@ -3,6 +3,8 @@ package com.acme.meetingrooms.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.Data;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.converter.Converter;
@@ -15,6 +17,7 @@ import com.acme.meetingrooms.service.dto.EmployeeDTO;
 /**
  * Default implementation for {@link EmployeeService}.
  */
+@Data
 public class DefaultEmployeeService implements EmployeeService {
 
     private static Logger logger = LoggerFactory.getLogger(DefaultEmployeeService.class);
@@ -22,6 +25,7 @@ public class DefaultEmployeeService implements EmployeeService {
     private EmployeeDAO dao;
     private Converter<EmployeeEntity, EmployeeDTO> employeeDAOToDTOConverter;
     private Converter<EmployeeDTO, EmployeeEntity> employeeDTOToDAOConverter;
+
 
     /**
      * Default constructor.
@@ -43,6 +47,20 @@ public class DefaultEmployeeService implements EmployeeService {
     @Override
     public List<EmployeeDTO> getAllEmployees() {
         List<EmployeeEntity> rawEmployees = dao.getAllEmployees();
+        List<EmployeeDTO> employees = new ArrayList<EmployeeDTO>();
+        for (EmployeeEntity employeeEntity : rawEmployees) {
+            employees.add(employeeDAOToDTOConverter.convert(employeeEntity));
+            logger.debug("DES: " + employees.get(employees.size() - 1).getId());
+        }
+        return employees;
+    }
+
+    @Override
+    public List<EmployeeDTO> getEmployees(Long from, Long step) {
+        if (from < 0 && step < 0) {
+            throw new IndexOutOfBoundsException();
+        }
+        List<EmployeeEntity> rawEmployees = dao.getEmployees(from, step);
         List<EmployeeDTO> employees = new ArrayList<EmployeeDTO>();
         for (EmployeeEntity employeeEntity : rawEmployees) {
             employees.add(employeeDAOToDTOConverter.convert(employeeEntity));
@@ -82,28 +100,10 @@ public class DefaultEmployeeService implements EmployeeService {
         dao.removeEmployee(employeeDAO);
     }
 
-    public EmployeeDAO getDao() {
-        return dao;
-    }
-
-    public void setDao(EmployeeDAO dao) {
-        this.dao = dao;
-    }
-
-    public Converter<EmployeeEntity, EmployeeDTO> getEmployeeDAOToDTOConverter() {
-        return employeeDAOToDTOConverter;
-    }
-
-    public void setEmployeeDAOToDTOConverter(Converter<EmployeeEntity, EmployeeDTO> employeeDAOToDTOConverter) {
-        this.employeeDAOToDTOConverter = employeeDAOToDTOConverter;
-    }
-
-    public Converter<EmployeeDTO, EmployeeEntity> getEmployeeDTOToDAOConverter() {
-        return employeeDTOToDAOConverter;
-    }
-
-    public void setEmployeeDTOToDAOConverter(Converter<EmployeeDTO, EmployeeEntity> employeeDTOToDAOConverter) {
-        this.employeeDTOToDAOConverter = employeeDTOToDAOConverter;
+    @Override
+    public Long countEmployees() {
+        Long numberOfEmployees = dao.countEmployees();
+        return numberOfEmployees;
     }
 
 }

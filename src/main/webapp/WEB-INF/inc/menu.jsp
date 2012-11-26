@@ -1,7 +1,14 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
-<c:url var="listUrl" value="/employees/list"/>  
-<c:url var="addUrl" value="/employees/add"/>  
+<c:url var="listUrl" value="/employees/list"/>
+<c:url var="listAjaxUrl" value="/employees/ajaxlist"/>  
+<c:url var="addUrl" value="/employees/add"/>
+<c:url var="enLangUrl" value="/?lang=en" />
+<c:url var="huLangUrl" value="/?lang=hu" />
+	
+
+
+
 
 <div class="navbar navbar-inverse navbar-fixed-top">
 	<div class="navbar-inner">
@@ -26,8 +33,12 @@
 								<a href="${listUrl}"><spring:message code="menu.list.employees" /></a>
 							</li>
 							<li>
+								<a href="${listAjaxUrl}"><spring:message code="menu.listajax.employees" /></a>
+							</li>
+							<li>
 								<a href="${addUrl}"><spring:message code="menu.add.employee" /></a>
 							</li>
+							
 						</ul>
 					</li>
 				</ul>
@@ -35,8 +46,8 @@
 			</div> <!--/.nav-collapse -->
 			<div class="pull-right" >
 					<div style="position:absolute; top:25%;">
-						<a class="muted" href="?lang=en">en</a>
-						<a class="muted" href="?lang=hu">hu</a>
+						<a class="muted" href="${enLangUrl}">en</a>
+						<a class="muted" href="${huLangUrl}">hu</a>
 					</div>
 				</div>
 		</div>

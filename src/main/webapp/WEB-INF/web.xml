@@ -32,7 +32,12 @@
   
   <error-page>
       <exception-type>java.lang.Exception</exception-type>
-      <location>/WEB-INF/views/exceptions/default.jsp</location>
+      <location>/WEB-INF/views/error_pages/exception.jsp</location>
+  </error-page>
+  
+  <error-page>
+      <error-code>404</error-code>
+      <location>/WEB-INF/views/error_pages/404.jsp</location>
   </error-page>
   
   

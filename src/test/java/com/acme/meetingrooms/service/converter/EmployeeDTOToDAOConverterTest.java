@@ -2,13 +2,10 @@ package com.acme.meetingrooms.service.converter;
 
 import junit.framework.Assert;
 
-import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.acme.meetingrooms.dao.entity.EmployeeEntity;
-import com.acme.meetingrooms.service.builder.EmployeeBuilder;
-import com.acme.meetingrooms.service.builder.EmployeeEntityBuilder;
 import com.acme.meetingrooms.service.dto.EmployeeDTO;
 
 /** Test case for the EmployeeDTOToDAOConverter class.
@@ -46,19 +43,14 @@ public class EmployeeDTOToDAOConverterTest {
         expected.setName(EMPLOYEE_NAME);
         expected.setEmail(EMPLOYEE_EMAIL);
 
-        EmployeeBuilder<EmployeeEntity> builder = EasyMock.createMock(EmployeeEntityBuilder.class);
-        EasyMock.expect(builder.withId(EMPLOYEE_ID)).andReturn(builder).times(1);
-        EasyMock.expect(builder.withName(EMPLOYEE_NAME)).andReturn(builder).times(1);
-        EasyMock.expect(builder.withEmail(EMPLOYEE_EMAIL)).andReturn(builder).times(1);
-        EasyMock.expect(builder.build()).andReturn(expected);
-        EasyMock.replay(builder);
         // WHEN
-        underTest.setBuilder(builder);
         EmployeeEntity actual = underTest.convert(dto);
+
         // THEN
-        Assert.assertEquals(EMPLOYEE_ID, actual.getId());
-        Assert.assertEquals(EMPLOYEE_NAME, actual.getName());
-        Assert.assertEquals(EMPLOYEE_EMAIL, actual.getEmail());
+        Assert.assertEquals(expected.getClass(), actual.getClass());
+        Assert.assertEquals(expected.getId(), actual.getId());
+        Assert.assertEquals(expected.getName(), actual.getName());
+        Assert.assertEquals(expected.getEmail(), actual.getEmail());
     }
 
 }

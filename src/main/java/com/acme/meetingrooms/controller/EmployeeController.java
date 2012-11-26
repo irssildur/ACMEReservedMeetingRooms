@@ -2,8 +2,6 @@ package com.acme.meetingrooms.controller;
 
 import java.util.List;
 
-import java.util.Locale;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -47,7 +45,11 @@ public class EmployeeController {
 
     private static final String LIST_MAPPING = "/list";
 
+    private static final String LIST_AJAX_MAPPING = "/ajaxlist";
+
     private static final String EMPLOYEES_LIST_VIEW = "employees/list";
+
+    private static final String EMPLOYEES_LIST_AJAX_VIEW = "employees/listajax";
 
     private static final String EMPLOYEES_ADD_VIEW = "employees/add";
 
@@ -68,6 +70,12 @@ public class EmployeeController {
      * @param model asdf
      * @return asdf
      */
+
+    @RequestMapping(value = LIST_AJAX_MAPPING, method = RequestMethod.GET)
+    public String listAjaxEmployees(Model model) {
+
+        return EMPLOYEES_LIST_AJAX_VIEW;
+    }
 
     @RequestMapping(value = LIST_MAPPING, method = RequestMethod.GET)
     public String listEmployees(Model model) {
@@ -99,7 +107,7 @@ public class EmployeeController {
             EmployeeDTO employeeDTO = employeeFormToDTOConverter.convert(employeeForm);
             employeeService.addEmployee(employeeDTO);
             flash.addAttribute("msg", "You have succesfully added: " + employeeForm.getName());
-            return listEmployees(model);
+            return "redirect:/"+EMPLOYEES_LIST_VIEW;
         }
 
     }
@@ -112,7 +120,7 @@ public class EmployeeController {
         employeeService.removeEmployee(removeId);
 
         //return "redirect:/employees/list";
-        return listEmployees(model);
+        return "redirect:/"+EMPLOYEES_LIST_VIEW;
     }
 
     @RequestMapping(value = EDIT_MAPPING, method = RequestMethod.GET)
@@ -141,7 +149,7 @@ public class EmployeeController {
             employeeService.updateEmployee(employeeDTO);
         }
 
-        return listEmployees(model);
+        return "redirect:/"+EMPLOYEES_LIST_VIEW;
     }
 
 }

@@ -36,7 +36,9 @@
 	</interceptors>
 
 
-
+<!-- 	<beans:bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"> -->
+	    
+<!-- 	</beans:bean> -->
 
 
 
@@ -111,12 +113,22 @@
 	    <beans:property name="employeeDTOToDAOConverter" ref="employeeDTOToDAOConverter" />
 	</beans:bean>
 	
+	<beans:bean id="ajaxEmployeeService" class="com.acme.meetingrooms.service.DefaultAjaxEmployeeService">
+	    <beans:property name="employeeService" ref="employeeService"></beans:property>
+	</beans:bean>
+	
 	<!-- controller -->
+	
+	<beans:bean id="employeeAjaxController" class="com.acme.meetingrooms.controller.EmployeeAjaxController">
+	    <beans:property name="ajaxEmployeeService" ref="ajaxEmployeeService" />
+	</beans:bean>
 	
 	<beans:bean id="employeeController" class="com.acme.meetingrooms.controller.EmployeeController">
 	    <beans:property name="employeeService" ref="employeeService" />
 	    <beans:property name="employeeFormToDTOConverter" ref="employeeFormToDTOConverter" />
 	</beans:bean>
+	
+	
 	
 	
 	

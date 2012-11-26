@@ -25,6 +25,14 @@ public interface EmployeeDAO {
     List<EmployeeEntity> getAllEmployees();
 
     /**
+     * Get a list of Employees from the "from" parameter from in the length specified by the "step" parameter.
+     * @param from value of where the List should start
+     * @param step value of the length of the list
+     * @return List of Employees
+     */
+    List<EmployeeEntity> getEmployees(Long from, Long step);
+
+    /**
      * Adds a new employee to the repository.
      * @param employee an Employee which has to be added to the repository.
      */
@@ -48,4 +56,9 @@ public interface EmployeeDAO {
      */
     void removeEmployee(EmployeeEntity employee);
 
+    /**
+     * Counts the employees.
+     * @return the number of the employees.
+     */
+    Long countEmployees();
 }

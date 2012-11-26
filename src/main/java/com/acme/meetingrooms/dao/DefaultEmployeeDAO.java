@@ -8,6 +8,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 
+import lombok.Data;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
@@ -20,6 +22,7 @@ import com.acme.meetingrooms.dao.entity.EmployeeEntity;
  * @author Istvan_Hever
  *
  */
+@Data
 @Repository
 public class DefaultEmployeeDAO implements EmployeeDAO {
 
@@ -87,6 +90,17 @@ public class DefaultEmployeeDAO implements EmployeeDAO {
     }
 
     @Override
+    public List<EmployeeEntity> getEmployees(Long from, Long step) {
+        List<EmployeeEntity> employees = new ArrayList<EmployeeEntity>();
+        try {
+            employees = manager.createQuery("SELECT e FROM EmployeeEntity e", EmployeeEntity.class).setFirstResult(from.intValue()).setMaxResults(step.intValue()).getResultList();
+        } catch (Exception e) {
+            LOG.error(e.getMessage());
+        }
+        return employees;
+    }
+
+    @Override
     public void addEmployee(EmployeeEntity employee) {
         LOG.info("EmployeeEntity [" + employee + "] is getting added.");
         try {
@@ -139,20 +153,18 @@ public class DefaultEmployeeDAO implements EmployeeDAO {
         }
     }
 
-    public EntityManagerFactory getEntityManagerFactory() {
-        return entityManagerFactory;
-    }
-
-    public void setEntityManagerFactory(EntityManagerFactory entityManagerFactory) {
-        this.entityManagerFactory = entityManagerFactory;
-    }
-
-    public MessageSource getMessages() {
-        return messages;
-    }
-
-    public void setMessages(MessageSource messages) {
-        this.messages = messages;
+    @Override
+    public Long countEmployees() {
+        LOG.info("Employees are getting counted.");
+        Long numberOfEmployees = 0L;
+        try {
+            manager.getTransaction().begin();
+            numberOfEmployees = (Long) manager.createQuery("SELECT COUNT(e.id) FROM EmployeeEntity e").getSingleResult();
+            manager.getTransaction().commit();
+        } catch (Exception e) {
+            LOG.error(e.getMessage());
+        }
+        return numberOfEmployees;
     }
 
 }

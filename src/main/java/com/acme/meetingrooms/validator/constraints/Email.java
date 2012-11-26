@@ -22,7 +22,7 @@ public @interface Email {
      * asdf.
      * @return
      */
-    String message() default "sdasds {com.acme.meetingrooms.validator.constraints}";
+    String message() default "E-mail format doens't valid";
 
     /**
      * asdf.

@@ -19,7 +19,7 @@ public class EmployeeForm {
 
     private long id;
 
-    @Size(min = NAME_MIN_LENGTH)
+    @Size(min = NAME_MIN_LENGTH, message = "Size.employeeForm.name")
     private String name = "";
 
     @Email
