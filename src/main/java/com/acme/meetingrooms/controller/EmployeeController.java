@@ -77,7 +77,7 @@ public class EmployeeController {
         return EMPLOYEES_LIST_AJAX_VIEW;
     }
 
-    @RequestMapping(value = LIST_MAPPING, method = RequestMethod.GET)
+    @RequestMapping(value = {LIST_MAPPING, "/"}, method = RequestMethod.GET)
     public String listEmployees(Model model) {
 
         List<EmployeeDTO> employees = employeeService.getAllEmployees();
@@ -99,17 +99,19 @@ public class EmployeeController {
     public String saveEmployee(Model model, @Valid EmployeeForm employeeForm, BindingResult result, RedirectAttributes flash,
             HttpServletRequest request) {
 
+        String url = "";
+
         if (result.hasErrors()) {
             model.addAttribute("errors", result.getAllErrors());
             logger.debug(result.getAllErrors().toString());
-            return EMPLOYEES_ADD_VIEW;
+            url = EMPLOYEES_ADD_VIEW;
         } else {
             EmployeeDTO employeeDTO = employeeFormToDTOConverter.convert(employeeForm);
             employeeService.addEmployee(employeeDTO);
             flash.addAttribute("msg", "You have succesfully added: " + employeeForm.getName());
-            return "redirect:/"+EMPLOYEES_LIST_VIEW;
+            url = "redirect:/" + EMPLOYEES_LIST_VIEW;
         }
-
+        return url;
     }
 
     @RequestMapping(value = REMOVE_MAPPING)
@@ -120,7 +122,7 @@ public class EmployeeController {
         employeeService.removeEmployee(removeId);
 
         //return "redirect:/employees/list";
-        return "redirect:/"+EMPLOYEES_LIST_VIEW;
+        return "redirect:/" + EMPLOYEES_LIST_VIEW;
     }
 
     @RequestMapping(value = EDIT_MAPPING, method = RequestMethod.GET)
@@ -149,7 +151,7 @@ public class EmployeeController {
             employeeService.updateEmployee(employeeDTO);
         }
 
-        return "redirect:/"+EMPLOYEES_LIST_VIEW;
+        return "redirect:/" + EMPLOYEES_LIST_VIEW;
     }
 
 }

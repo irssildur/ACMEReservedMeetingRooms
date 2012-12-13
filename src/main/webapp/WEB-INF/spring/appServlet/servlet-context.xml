@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans:beans xmlns="http://www.springframework.org/schema/mvc"
+    xmlns:security="http://www.springframework.org/schema/security" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	http://www.springframework.org/schema/mvc
+	http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security-3.1.xsd"
+	
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:p="http://www.springframework.org/schema/p">
 
@@ -46,7 +53,6 @@
 
 
 
-
 	
  
 <!-- 	<beans:bean id="urlMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"> -->
@@ -67,13 +73,6 @@
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
 
 	
 	<beans:bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
@@ -85,27 +84,46 @@
 <!-- 	    <beans:property name="useCodeAsDefaultMessage" value="true" /> -->
 	</beans:bean>
 	
-	<beans:bean id="entityManagerFactory" class="javax.persistence.Persistence" autowire-candidate="true" factory-method="createEntityManagerFactory">
+	<beans:bean id="entityManagerFactory" class="javax.persistence.Persistence" factory-method="createEntityManagerFactory">
 	    <beans:constructor-arg name="persistenceUnitName" value="persistenceUnit" />
 	</beans:bean>
-		
-	<!-- service.converter -->
 	
-	<beans:bean id="employeeDAOToDTOConverter" class="com.acme.meetingrooms.service.converter.EmployeeDAOToDTOConverter" />
-	    
-	
-	<beans:bean id="employeeDTOToDAOConverter" class="com.acme.meetingrooms.service.converter.EmployeeDTOToDAOConverter" />
-	   
-	
-	<beans:bean id="employeeFormToDTOConverter" class="com.acme.meetingrooms.service.converter.EmployeeFormToDTOConverter" />
-	   
-	
-	<!-- service -->
 
+	
+	<!-- dao -->
+	
 	<beans:bean id="defaultEmployeeDAO" class="com.acme.meetingrooms.dao.DefaultEmployeeDAO">
 	    <beans:property name="entityManagerFactory" ref="entityManagerFactory" />
 	    <beans:property name="messages" ref="messageSource" />
 	</beans:bean>
+	
+	<beans:bean id="defaultUserEntityDao" class="com.acme.meetingrooms.dao.DefaultUserEntityDAO">
+	    <beans:property name="entityManagerFactory" ref="entityManagerFactory" />
+	</beans:bean>
+	
+		
+	<!-- service.converter -->
+	
+	<beans:bean id="authorityEntityToDTOConverter" class="com.acme.meetingrooms.service.converter.AuthorityEntityToDTOConverter">
+	    <beans:property name="userEntityToDTOConverter" ref="userEntityToDTOConverter" />
+	</beans:bean>
+	<beans:bean id="authorityDTOToEntityConverter" class="com.acme.meetingrooms.service.converter.AuthorityDTOToEntityConverter">
+	    <beans:property name="userDTOToEntityConverter" ref="userDTOToEntityConverter" />
+	</beans:bean>
+	<beans:bean id="authorityFormToDTOConverter" class="com.acme.meetingrooms.service.converter.AuthorityFormToDTOConverter">
+	    <beans:property name="userFormToDTOConverter" ref="userFormToDTOConverter" />
+	</beans:bean>
+	
+	<beans:bean id="employeeDAOToDTOConverter" class="com.acme.meetingrooms.service.converter.EmployeeDAOToDTOConverter" />
+	<beans:bean id="employeeDTOToDAOConverter" class="com.acme.meetingrooms.service.converter.EmployeeDTOToDAOConverter" />
+	<beans:bean id="employeeFormToDTOConverter" class="com.acme.meetingrooms.service.converter.EmployeeFormToDTOConverter" />
+	
+	<beans:bean id="userDTOToEntityConverter" class="com.acme.meetingrooms.service.converter.UserDTOToEntityConverter" />
+	<beans:bean id="userEntityToDTOConverter" class="com.acme.meetingrooms.service.converter.UserEntityToDTOConverter" />
+	<beans:bean id="userFormToDTOConverter" class="com.acme.meetingrooms.service.converter.UserFormToDTOConverter" />
+	   
+	
+	<!-- service -->
 	
 	<beans:bean id="employeeService" class="com.acme.meetingrooms.service.DefaultEmployeeService">
 	    <beans:property name="dao" ref="defaultEmployeeDAO" />
@@ -116,6 +134,13 @@
 	<beans:bean id="ajaxEmployeeService" class="com.acme.meetingrooms.service.DefaultAjaxEmployeeService">
 	    <beans:property name="employeeService" ref="employeeService"></beans:property>
 	</beans:bean>
+	
+	<beans:bean id="defaultUserDetailsService" class="com.acme.meetingrooms.service.DefaultUserDetailsService">
+	    <beans:property name="userEntityToUserDTOConverter" ref="userEntityToDTOConverter" />
+	    <beans:property name="userEntityDAO" ref="defaultUserEntityDao" />
+	</beans:bean>
+	
+	
 	
 	<!-- controller -->
 	

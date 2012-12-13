@@ -23,7 +23,6 @@ import com.acme.meetingrooms.dao.entity.EmployeeEntity;
  *
  */
 @Data
-@Repository
 public class DefaultEmployeeDAO implements EmployeeDAO {
 
     private static final String EXCEPTIONS_PERSISTENCE_DATABASE_ERROR = "exceptions.persistence.database.error";
