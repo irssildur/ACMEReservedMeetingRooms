@@ -22,7 +22,5 @@ public class AuthorityEntity {
     @GeneratedValue
     private Long id;
     private String authority;
-    @ManyToMany
-    private Set<UserEntity> users;
 
 }

@@ -13,5 +13,4 @@ import lombok.Data;
 public class AuthorityForm {
     private Long id;
     private String authority;
-    private Set<UserForm> users;
 }

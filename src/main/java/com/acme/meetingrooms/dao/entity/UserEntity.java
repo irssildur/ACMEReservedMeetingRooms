@@ -25,7 +25,7 @@ public class UserEntity implements UserDetails {
     @Id
     @GeneratedValue
     private long id;
-    @ManyToMany(mappedBy = "users", targetEntity = AuthorityEntity.class)
+    @ManyToMany(targetEntity = AuthorityEntity.class)
     private Set<GrantedAuthority> authorities;
     private String username;
     private String password;

@@ -16,7 +16,6 @@ public class AuthorityDTO implements GrantedAuthority {
 
     private Long id;
     private String authority;
-    private Set<UserDTO> users;
 
     @Override
     public String getAuthority() {

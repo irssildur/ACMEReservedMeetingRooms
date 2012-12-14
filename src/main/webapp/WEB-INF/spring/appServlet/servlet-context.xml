@@ -104,15 +104,9 @@
 		
 	<!-- service.converter -->
 	
-	<beans:bean id="authorityEntityToDTOConverter" class="com.acme.meetingrooms.service.converter.AuthorityEntityToDTOConverter">
-	    <beans:property name="userEntityToDTOConverter" ref="userEntityToDTOConverter" />
-	</beans:bean>
-	<beans:bean id="authorityDTOToEntityConverter" class="com.acme.meetingrooms.service.converter.AuthorityDTOToEntityConverter">
-	    <beans:property name="userDTOToEntityConverter" ref="userDTOToEntityConverter" />
-	</beans:bean>
-	<beans:bean id="authorityFormToDTOConverter" class="com.acme.meetingrooms.service.converter.AuthorityFormToDTOConverter">
-	    <beans:property name="userFormToDTOConverter" ref="userFormToDTOConverter" />
-	</beans:bean>
+	<beans:bean id="authorityEntityToDTOConverter" class="com.acme.meetingrooms.service.converter.AuthorityEntityToDTOConverter"/>
+	<beans:bean id="authorityDTOToEntityConverter" class="com.acme.meetingrooms.service.converter.AuthorityDTOToEntityConverter"/>
+	<beans:bean id="authorityFormToDTOConverter" class="com.acme.meetingrooms.service.converter.AuthorityFormToDTOConverter"/>
 	
 	<beans:bean id="employeeDAOToDTOConverter" class="com.acme.meetingrooms.service.converter.EmployeeDAOToDTOConverter" />
 	<beans:bean id="employeeDTOToDAOConverter" class="com.acme.meetingrooms.service.converter.EmployeeDTOToDAOConverter" />
