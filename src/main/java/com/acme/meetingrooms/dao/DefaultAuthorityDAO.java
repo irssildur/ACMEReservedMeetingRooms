@@ -1,15 +1,15 @@
 package com.acme.meetingrooms.dao;
 
-import com.acme.meetingrooms.dao.entity.EmployeeEntity;
+import com.acme.meetingrooms.dao.entity.AuthorityEntity;
 
 /**
- * asdf.
+ * 
  * @author Istvan_Hever
  *
  */
-public class DefaultEmployeeDAO extends GenericDAOImpl<EmployeeEntity> {
+public class DefaultAuthorityDAO extends GenericDAOImpl<AuthorityEntity> {
 
-    private static final String EXCEPTIONS_PERSISTENCE_ENTITY_NOT_FOUND = "exceptions.persistence.employeeentity.not.found";
+    private static final String EXCEPTIONS_PERSISTENCE_ENTITY_NOT_FOUND = "exceptions.persistence.authorityentity.not.found";
 
     @Override
     protected void throwEntityNotFoundException() throws Exception {
@@ -17,4 +17,5 @@ public class DefaultEmployeeDAO extends GenericDAOImpl<EmployeeEntity> {
         throw new EmployeeNotFoundException(message);
 
     }
+
 }

@@ -7,10 +7,6 @@ import lombok.Data;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import com.acme.meetingrooms.dao.UserEntityDAO;
-import com.acme.meetingrooms.dao.entity.UserEntity;
-import com.acme.meetingrooms.service.converter.UserDTOToEntityConverter;
-import com.acme.meetingrooms.service.converter.UserEntityToDTOConverter;
 import com.acme.meetingrooms.service.dto.UserDTO;
 
 /**
@@ -21,15 +17,15 @@ import com.acme.meetingrooms.service.dto.UserDTO;
 @Data
 public class DefaultUserDetailsService implements UserDetailsService {
 
-    private UserEntityDAO userEntityDAO;
-    private UserEntityToDTOConverter userEntityToUserDTOConverter;
-    private UserDTOToEntityConverter userDTOToEntityConverter;
+//    private UserEntityDAO userEntityDAO;
+//    private UserEntityToDTOConverter userEntityToUserDTOConverter;
+//    private UserDTOToEntityConverter userDTOToEntityConverter;
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        UserEntity userEntity = userEntityDAO.loadUserByUsername(username);
-        UserDTO userDto = userEntityToUserDTOConverter.convert(userEntity);
-        return userDto;
+//        UserEntity userEntity = userEntityDAO.loadUserByUsername(username);
+//        UserDTO userDto = userEntityToUserDTOConverter.convert(userEntity);
+        return null;
     }
 
     List<UserDTO> getAllUsers() {
@@ -41,8 +37,8 @@ public class DefaultUserDetailsService implements UserDetailsService {
     }
 
     void addUser(UserDTO user) {
-        UserEntity userEntity = userDTOToEntityConverter.convert(user);
-        userEntityDAO.addUser(userEntity);
+//        UserEntity userEntity = userDTOToEntityConverter.convert(user);
+//        userEntityDAO.addUser(userEntity);
     }
 
     void removeUser(long id) {

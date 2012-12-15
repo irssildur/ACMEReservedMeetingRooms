@@ -97,9 +97,9 @@
 	    <beans:property name="messages" ref="messageSource" />
 	</beans:bean>
 	
-	<beans:bean id="defaultUserEntityDao" class="com.acme.meetingrooms.dao.DefaultUserEntityDAO">
-	    <beans:property name="entityManagerFactory" ref="entityManagerFactory" />
-	</beans:bean>
+<!-- 	<beans:bean id="defaultUserEntityDao" class="com.acme.meetingrooms.dao.DefaultUserEntityDAO"> -->
+<!-- 	    <beans:property name="entityManagerFactory" ref="entityManagerFactory" /> -->
+<!-- 	</beans:bean> -->
 	
 		
 	<!-- service.converter -->
@@ -129,10 +129,10 @@
 	    <beans:property name="employeeService" ref="employeeService"></beans:property>
 	</beans:bean>
 	
-	<beans:bean id="defaultUserDetailsService" class="com.acme.meetingrooms.service.DefaultUserDetailsService">
-	    <beans:property name="userEntityToUserDTOConverter" ref="userEntityToDTOConverter" />
-	    <beans:property name="userEntityDAO" ref="defaultUserEntityDao" />
-	</beans:bean>
+<!-- 	<beans:bean id="defaultUserDetailsService" class="com.acme.meetingrooms.service.DefaultUserDetailsService"> -->
+<!-- 	    <beans:property name="userEntityToUserDTOConverter" ref="userEntityToDTOConverter" /> -->
+<!-- 	    <beans:property name="userEntityDAO" ref="defaultUserEntityDao" /> -->
+<!-- 	</beans:bean> -->
 	
 	
 	
