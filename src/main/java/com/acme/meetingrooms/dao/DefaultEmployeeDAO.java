@@ -3,7 +3,7 @@ package com.acme.meetingrooms.dao;
 import com.acme.meetingrooms.dao.entity.EmployeeEntity;
 
 /**
- * asdf.
+ * DAO for the EmployeeEntity class.
  * @author Istvan_Hever
  *
  */
